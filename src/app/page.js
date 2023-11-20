@@ -1,113 +1,188 @@
-import Image from 'next/image'
+"use client";
+import Navbar from "./{components}/Navbar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEnvelope,
+  faL,
+  faMoon,
+  faPhone,
+  faSchool,
+  faSun,
+  fas,
+} from "@fortawesome/free-solid-svg-icons";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import Subscribe from "./{components}/Subscribe";
+import Login from "./{components}/Login";
+import Signup from "./{components}/Signup";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Home() {
+  const [isDarkMode, setDarkMode] = useState(false);
+  const [isLogin, setLogin] = useState(false);
+  const [isSignup, setSignup] = useState(false);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!isDarkMode);
+  };
+
+  const toggleLogin = () => {
+    setLogin(!isLogin);
+    setSignup(false);
+  };
+
+  const toggleSignUp = () => {
+    setSignup(!isSignup);
+    setLogin(false);
+  };
+
+  const toggleDefault = () => {
+    setLogin(false);
+    setSignup(false);
+  };
+
+  const hi = () => {
+    console.log("Hi");
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.js</code>
+    <main className={`${isDarkMode ? "bg-zinc-900" : "bg-zinc-200"}`}>
+      <Toaster />
+      <div
+        onClick={toggleDarkMode}
+        className={`${
+          isDarkMode ? "bg-zinc-200 text-zinc-900" : "bg-zinc-900 text-zinc-200"
+        }  fixed  z-30 top-24 right-0 inline-block w-12 cursor-pointer rounded-l-lg p-2 text-3xl`}
+      >
+        {isDarkMode ? (
+          <FontAwesomeIcon icon={faSun} />
+        ) : (
+          <FontAwesomeIcon icon={faMoon} />
+        )}
+      </div>
+      <Navbar
+        label={"homePage"}
+        login={toggleLogin}
+        signup={toggleSignUp}
+        home={toggleDefault}
+      />
+      <div
+        style={{ backgroundImage: `url("/backmain.jpg")` }}
+        className="bg-cover bg-center bg-fixed flex flex-col items-center justify-center h-[calc(100vh-200px)] min-h-[400px] max-sm:h-[calc(100vh-400px)]"
+      >
+        {isLogin && <Login signup={toggleSignUp} />}
+        {isSignup && <Signup setLogin={hi} login={toggleLogin} />}
+        {!isLogin && !isSignup && <Subscribe />}
+      </div>
+
+      <div
+        className={`${
+          isDarkMode ? "text-zinc-200 " : "text-zinc-900"
+        } max-w-screen-lg mx-auto mt-20`}
+      >
+        <h2 id="feature" className="p-2 text-3xl md:text-5xl md:p-0 font-bold">
+          Features
+        </h2>
+        <p className="max-md:p-2 mt-2 max-md:text-sm">
+          Experience top-notch up to date technologies which will add increased
+          productivity and smooth experience in running a school
         </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+
+        <div className="mt-4 flex w-full gap-4 pb-5 snap-x overflow-x-auto">
+          <div className="min-w-[80%] md:min-w-[40%]">
+            <div
+              style={{ backgroundImage: `url("/backmain.jpg")` }}
+              className=" max-md:h-60 h-80 w-full snap-center rounded-xl bg-cover bg-center shadow-md shadow-black/20"
+            ></div>
+            <h5 className=" max-md:text-lg max-md:px-2 mt-2 font-bold text-xl">
+              Terminal Report Generator
+            </h5>
+            <p className=" max-md:text-sm max-md:px-2">
+              Quickly Generate Complex Terminal Reports for students
+            </p>
+          </div>
         </div>
       </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+      <div
+        className={`${
+          isDarkMode ? "bg-zinc-200 text-zinc-900" : "bg-zinc-900 text-zinc-200"
+        } flex p-4 justify-center gap-32 max-md:flex-col max-md:gap-6 max-[1000px]:gap-10`}
+      >
+        <div className="flex flex-col">
+          <h1 className="font-bold text-3xl max-md:text-xl">Contact Us</h1>
+          <span className="max-md:text-sm">Send Us a Message</span>
+          <input
+            type="text"
+            placeholder="fullname"
+            className="mt-4 p-2 rounded-md text-zinc-900 outline-lime-500 caret-lime-500 max-md:text-sm"
+          />
+          <input
+            type="email"
+            placeholder="email"
+            className="mt-4 p-2 rounded-md text-zinc-900 outline-lime-500 caret-lime-500 max-md:text-sm"
+          />
+          <textarea
+            placeholder="Your Message"
+            className="mt-4 p-2 rounded-md text-zinc-900 outline-lime-500 caret-lime-500 max-md:text-sm"
+          />
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+          <button className="bg-gradient-to-r from-green-500 to-lime-500 mt-2 self-start px-4 py-2 rounded-md hover:text-lime-500 hover:border-lime-500  hover:border hover:bg-gradient-to-tr hover:from-zinc-100 hover:to-zinc-100 transition-all ease-in-out">
+            Send
+          </button>
+        </div>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+        <div className="flex flex-col items-center">
+          <h1 className="font-bold text-3xl max-md:text-xl">Site Map</h1>
+          <span className="max-md:text-sm">All Our Pages</span>
+          <div className="mt-4 flex flex-col items-center gap-2 max-md:text-sm">
+            <Link href={"/"} onClick={toggleDefault}>
+              Home
+            </Link>
+            <Link href={"/"} onClick={toggleLogin}>
+              Login
+            </Link>
+            <Link href={"/"} onClick={toggleSignUp}>
+              SignUp
+            </Link>
+            <Link href={"#feature"}>Features</Link>
+          </div>
+        </div>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
+        <div className="flex flex-col">
+          <div className="flex flex-col items-center">
+            <FontAwesomeIcon
+              className={`${
+                isDarkMode ? "text-zinc-900" : "text-zinc-200"
+              } h-[40px]`}
+              icon={faSchool}
+            />
+            <div className=" font-bold text-3xl text-sky-900">
+              cl:<span className=" text-red-500">sms</span>
+            </div>
+          </div>
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+          <div className="flex self-end items-center justify-center mt-4 max-md:self-center max-md:text-sm">
+            <FontAwesomeIcon
+              icon={faPhone}
+              className={`${
+                isDarkMode ? "text-zinc-900" : "text-zinc-200"
+              } h-4 mr-4`}
+            />
+            <span>(+233)599975352</span>
+          </div>
+
+          <div className="flex self-end items-center justify-center max-md:self-center max-md:text-sm">
+            <FontAwesomeIcon
+              icon={faEnvelope}
+              className={`${
+                isDarkMode ? "text-zinc-900" : "text-zinc-200"
+              } h-4 mr-4`}
+            />
+            <span>mramoah@protonmail.com</span>
+          </div>
+        </div>
       </div>
     </main>
-  )
+  );
 }
