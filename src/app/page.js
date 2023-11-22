@@ -3,12 +3,10 @@ import Navbar from "./{components}/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEnvelope,
-  faL,
   faMoon,
   faPhone,
   faSchool,
   faSun,
-  fas,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -16,11 +14,13 @@ import Subscribe from "./{components}/Subscribe";
 import Login from "./{components}/Login";
 import Signup from "./{components}/Signup";
 import toast, { Toaster } from "react-hot-toast";
+import ForgotPassword from "./{components}/ForgotPassword";
 
 export default function Home() {
   const [isDarkMode, setDarkMode] = useState(false);
   const [isLogin, setLogin] = useState(false);
   const [isSignup, setSignup] = useState(false);
+  const [isPasswordForget, setPasswordForget] = useState(false);
 
   const toggleDarkMode = () => {
     setDarkMode(!isDarkMode);
@@ -29,20 +29,25 @@ export default function Home() {
   const toggleLogin = () => {
     setLogin(!isLogin);
     setSignup(false);
+    setPasswordForget(false);
   };
 
   const toggleSignUp = () => {
     setSignup(!isSignup);
     setLogin(false);
+    setPasswordForget(false);
+  };
+
+  const togglePasswordForget = () => {
+    setPasswordForget(!isPasswordForget);
+    setLogin(false);
+    setSignup(false);
   };
 
   const toggleDefault = () => {
     setLogin(false);
     setSignup(false);
-  };
-
-  const hi = () => {
-    console.log("Hi");
+    setPasswordForget(false);
   };
 
   return (
@@ -70,9 +75,16 @@ export default function Home() {
         style={{ backgroundImage: `url("/backmain.jpg")` }}
         className="bg-cover bg-center bg-fixed flex flex-col items-center justify-center h-[calc(100vh-200px)] min-h-[400px] max-sm:h-[calc(100vh-400px)]"
       >
-        {isLogin && <Login signup={toggleSignUp} />}
-        {isSignup && <Signup setLogin={hi} login={toggleLogin} />}
-        {!isLogin && !isSignup && <Subscribe />}
+        {isLogin && (
+          <Login signup={toggleSignUp} reset={togglePasswordForget} />
+        )}
+        {isSignup && (
+          <Signup login={toggleLogin} reset={togglePasswordForget} />
+        )}
+        {isPasswordForget && (
+          <ForgotPassword signup={toggleSignUp} login={toggleLogin} />
+        )}
+        {!isLogin && !isSignup && !isPasswordForget && <Subscribe />}
       </div>
 
       <div

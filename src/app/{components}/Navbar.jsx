@@ -7,7 +7,7 @@ import NavbarLogo from "./NavbarLogo";
 import NavbarItem from "./NavbarItem";
 import NavbarDrop from "./NavbarDrop";
 
-const Navbar = ({ label, login, signup, home }) => {
+const Navbar = ({ label, login, signup, home, logout, profile }) => {
   const [isActive, setActive] = useState(false);
 
   const toggleClass = () => {
@@ -32,7 +32,7 @@ const Navbar = ({ label, login, signup, home }) => {
         </div>
 
         <div className="hidden peer-open:block absolute w-full top-[62px] left-0 bg-gradient-to-r from-green-500 to-lime-500">
-          {label === "homePage" ? (
+          {label === "homePage" && (
             <ul className="flex flex-col items-center justify-end h-full">
               <NavbarMobileItem link={"/"} label={"Home"} clickEvent={home} />
               <NavbarMobileDrop
@@ -42,20 +42,40 @@ const Navbar = ({ label, login, signup, home }) => {
               />
               <NavbarMobileItem label={"Features"} link={"#feature"} />
             </ul>
-          ) : (
-            ``
+          )}
+
+          {label === "profile" && (
+            <ul className="flex flex-col items-center justify-end h-full">
+              <NavbarMobileItem link={"/"} label={"Home"} clickEvent={home} />
+              <NavbarMobileDrop
+                label={"Account"}
+                logoutClick={logout}
+                profileClick={profile}
+              />
+              <NavbarMobileItem label={"Settings"} link={""} />
+            </ul>
           )}
         </div>
       </div>
 
-      {label === "homePage" ? (
+      {label === "homePage" && (
         <ul className="flex-1 md:flex hidden items-center justify-end h-full">
           <NavbarItem link={"/"} label={"Home"} clickEvent={home} />
           <NavbarDrop label={"User"} loginClick={login} signupClick={signup} />
           <NavbarItem link={"#feature"} label={"Features"} />
         </ul>
-      ) : (
-        ``
+      )}
+
+      {label === "profile" && (
+        <ul className="flex-1 md:flex hidden items-center justify-end h-full">
+          <NavbarItem link={"/"} label={"Home"} clickEvent={home} />
+          <NavbarDrop
+            label={"Account"}
+            logoutClick={logout}
+            profileClick={profile}
+          />
+          <NavbarItem link={"#feature"} label={"Features"} />
+        </ul>
       )}
     </nav>
   );

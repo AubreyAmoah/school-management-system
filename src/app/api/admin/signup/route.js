@@ -2,6 +2,7 @@ import connect from "@/dbConfig/dbConfig";
 import User from "@/models/User";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import { sendEmail } from "@/helpers/mailer";
 
 connect();
@@ -139,11 +140,30 @@ export async function POST(req) {
       userId: savedUser._id,
     });
 
-    return NextResponse.json({
+    const tokenData = {
+      id: savedUser._id,
+      firstname: savedUser.firstname,
+      lastname: savedUser.lastname,
+      email: savedUser.email,
+    };
+
+    const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET, {
+      expiresIn: "1d",
+    });
+
+    const res = NextResponse.json({
       message: "User created succesfully",
       success: true,
       savedUser,
     });
+
+    res.cookies.set("token", token, {
+      httpOnly: true,
+    });
+
+    console.log(res);
+
+    return res;
   } catch (error) {
     console.log(error);
     return NextResponse.json({ error: error.message }, { status: 500 });

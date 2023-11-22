@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const Signup = ({ login }) => {
+const Signup = ({ login, reset }) => {
   const router = useRouter();
   const [user, setUser] = React.useState({
     firstname: "",
@@ -26,6 +26,7 @@ const Signup = ({ login }) => {
       const res = await axios.post("/api/admin/signup", user);
       if (res.status === 200) {
         toast.success("Signup success");
+        router.push("/profile");
       } else {
         toast.error("Unable To Sign in");
       }
@@ -133,9 +134,9 @@ const Signup = ({ login }) => {
         </button>
 
         <div className="flex justify-between items-center">
-          <Link className="text-green-100" href={"/"}>
-            Forgot Password
-          </Link>
+          <div onClick={reset} className="text-green-100 cursor-pointer">
+            <span>Forgot Password</span>
+          </div>
 
           <div
             onClick={login}
