@@ -51,7 +51,7 @@ const NavbarMobileDrop = ({
             onClick={logoutClick}
             className="text-center p-4 relative text-green-100 hover:text-zinc-200 cursor-pointer"
           >
-            <span>Logunt</span>
+            <span>Logout</span>
           </div>
         </div>
       )}

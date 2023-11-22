@@ -80,8 +80,8 @@ const ProfilePage = () => {
 
         {user.isVerified == false && (
           <div className="flex flex-col gap-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-            <p>
-              You are not verified yet, check your email to verfy your account.
+            <p className="text-center">
+              You are not verified yet, check your email to verify your account.
               If verification has expired or you did not recieve a verification
               email click the button below to send one
             </p>
